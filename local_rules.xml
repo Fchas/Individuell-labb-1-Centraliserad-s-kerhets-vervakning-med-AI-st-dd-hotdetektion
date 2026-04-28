@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<group name="local_rules">
+    
+    <!-- SSH Brute Force Detection Rule -->
+    <!-- Detects multiple failed SSH login attempts (5+ failures within 1 minute) -->
+    <rule id="100001" level="5">
+        <if_sid>5710</if_sid>
+        <same_source_ip />
+        <frequency>5</frequency>
+        <timeframe>60</timeframe>
+        <description>SSH: Multiple authentication failures detected - possible brute force attack</description>
+        <group>authentication_failures,ssh_attack</group>
+    </rule>
+
+    <!-- SSH Successful Login After Multiple Failures -->
+    <!-- High severity when successful login follows many failures -->
+    <rule id="100002" level="10">
+        <if_sid>5720,100001</if_sid>
+        <same_source_ip />
+        <description>SSH: Successful login after multiple failed attempts - possible intrusion</description>
+        <group>authentication_success,ssh_attack,intrusion_detection</group>
+    </rule>
+
+    <!-- Root Account Login Attempt -->
+    <!-- Alert on any direct root SSH login attempt -->
+    <rule id="100003" level="7">
+        <if_sid>5700</if_sid>
+        <srcip>!127.0.0.1</srcip>
+        <regex>Failed password for root</regex>
+        <description>SSH: Root login attempt from remote host - CRITICAL</description>
+        <group>authentication_failures,root_attack,ssh_attack</group>
+    </rule>
+
+    <!-- Unusual SSH Port Activity -->
+    <!-- Detects SSH connections on non-standard ports -->
+    <rule id="100004" level="4">
+        <decoded_as>sshd</decoded_as>
+        <match>Invalid user</match>
+        <frequency>3</frequency>
+        <timeframe>120</timeframe>
+        <description>SSH: Multiple invalid user login attempts - possible reconnaissance</description>
+        <group>authentication_failures,reconnaissance</group>
+    </rule>
+
+    <!-- File Integrity Monitoring Alert -->
+    <!-- Critical system file modifications detected -->
+    <rule id="100005" level="9">
+        <if_sid>550,553,554</if_sid>
+        <match>/etc/passwd|/etc/shadow|/etc/sudoers|/etc/ssh/sshd_config</match>
+        <description>CRITICAL: System configuration file modified - possible privilege escalation or intrusion</description>
+        <group>fim,critical_file_modification,privilege_escalation</group>
+    </rule>
+
+    <!-- Unauthorized Privilege Escalation Attempt -->
+    <!-- Detects sudo usage by non-privileged users -->
+    <rule id="100006" level="8">
+        <if_sid>5102,5103</if_sid>
+        <match>sudo</match>
+        <description>Privilege escalation attempt detected - sudo command executed</description>
+        <group>privilege_escalation,access_control</group>
+    </rule>
+
+    <!-- Failed Sudo Command -->
+    <!-- High severity when sudo fails (possible attack) -->
+    <rule id="100007" level="7">
+        <if_sid>5104</if_sid>
+        <description>Failed sudo command - unauthorized privilege escalation attempt</description>
+        <group>privilege_escalation,access_control,failed_commands</group>
+    </rule>
+
+    <!-- Port Scan Detection -->
+    <!-- Detects multiple connection attempts to different ports from same source -->
+    <rule id="100008" level="6">
+        <if_sid>4001</if_sid>
+        <frequency>10</frequency>
+        <timeframe>60</timeframe>
+        <description>Port scanning activity detected - possible network reconnaissance</description>
+        <group>reconnaissance,port_scan</group>
+    </rule>
+
+    <!-- Cron Job Modification -->
+    <!-- Alerts when crontab files are modified -->
+    <rule id="100009" level="8">
+        <if_sid>550</if_sid>
+        <match>/var/spool/cron|crontab</match>
+        <description>Cron job modified - possible persistence mechanism installation</description>
+        <group>fim,persistence,cron_modification</group>
+    </rule>
+
+    <!-- System Log Cleared -->
+    <!-- Detects when system logs are cleared or rotated suspiciously -->
+    <rule id="100010" level="8">
+        <if_sid>1107,1108</if_sid>
+        <description>System logs cleared or suspicious log rotation - possible attack evidence destruction</description>
+        <group>log_manipulation,anti_forensics,critical</group>
+    </rule>
+
+</group>

@@ -1,0 +1,39 @@
+<!-- Active Response Configuration for Wazuh Agent -->
+<!-- Add this to the <agent> section of /var/ossec/etc/ossec.conf -->
+
+<!-- Block IP after SSH brute force attack (15-minute timeout) -->
+<active-response>
+    <command>firewall-drop</command>
+    <location>local</location>
+    <rules_id>100001,100002</rules_id>
+    <timeout>900</timeout>
+</active-response>
+
+<!-- Alert on critical file modifications -->
+<active-response>
+    <command>restart-ossec</command>
+    <location>local</location>
+    <rules_id>100005</rules_id>
+</active-response>
+
+<!-- Block on port scan detection -->
+<active-response>
+    <command>firewall-drop</command>
+    <location>local</location>
+    <rules_id>100008</rules_id>
+    <timeout>600</timeout>
+</active-response>
+
+<!-- Restart agent on cron modification -->
+<active-response>
+    <command>restart-ossec</command>
+    <location>local</location>
+    <rules_id>100009</rules_id>
+</active-response>
+
+<!-- Alert manager on root SSH attacks -->
+<active-response>
+    <command>restart-ossec</command>
+    <location>local</location>
+    <rules_id>100003</rules_id>
+</active-response>

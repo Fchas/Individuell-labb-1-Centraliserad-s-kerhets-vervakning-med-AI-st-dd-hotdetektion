@@ -1,0 +1,44 @@
+<!-- File Integrity Monitoring Configuration for Arch Linux -->
+<!-- Add this to the <agent> section of /var/ossec/etc/ossec.conf -->
+
+<!-- System Configuration Files -->
+<syscheck>
+    <frequency>300</frequency>
+    <alert_new_files>yes</alert_new_files>
+    <auto_ignore>no</auto_ignore>
+
+    <!-- Essential System Files -->
+    <directories check_all="yes" realtime="yes">/etc/passwd</directories>
+    <directories check_all="yes" realtime="yes">/etc/shadow</directories>
+    <directories check_all="yes" realtime="yes">/etc/group</directories>
+    <directories check_all="yes" realtime="yes">/etc/sudoers</directories>
+    <directories check_all="yes" realtime="yes">/etc/sudoers.d</directories>
+
+    <!-- SSH Configuration -->
+    <directories check_all="yes" realtime="yes">/etc/ssh/sshd_config</directories>
+    <directories check_all="yes" realtime="yes">/etc/ssh/ssh_config</directories>
+    <directories check_all="yes" realtime="yes">/home</directories>
+
+    <!-- System Binaries -->
+    <directories check_all="yes">/usr/bin</directories>
+    <directories check_all="yes">/usr/sbin</directories>
+    <directories check_all="yes">/bin</directories>
+    <directories check_all="yes">/sbin</directories>
+
+    <!-- Boot Configuration -->
+    <directories check_all="yes">/boot</directories>
+
+    <!-- Cron Jobs -->
+    <directories check_all="yes" realtime="yes">/etc/crontab</directories>
+    <directories check_all="yes" realtime="yes">/etc/cron.d</directories>
+    <directories check_all="yes" realtime="yes">/var/spool/cron</directories>
+
+    <!-- Ignore certain files to reduce false positives -->
+    <ignore>/etc/ssl/certs</ignore>
+    <ignore>/etc/ssl/private</ignore>
+    <ignore>/proc</ignore>
+    <ignore>/sys</ignore>
+    <ignore>/var/tmp</ignore>
+    <ignore>/var/cache</ignore>
+
+</syscheck>

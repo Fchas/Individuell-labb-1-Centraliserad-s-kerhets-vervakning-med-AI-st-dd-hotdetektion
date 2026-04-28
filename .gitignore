@@ -1,0 +1,199 @@
+# .gitignore for Wazuh Lab Project
+# Prevents sensitive information from being committed to GitHub
+
+################################################################################
+# CRITICAL - CONFIDENTIAL INFORMATION
+################################################################################
+
+# Enrollment credentials and passwords
+enrollment_password.txt
+credentials.json
+.env
+.env.local
+secrets.json
+
+# Wazuh agent keys and certificates
+/var/ossec/etc/client.keys
+/var/ossec/etc/internal_options.conf
+/var/ossec/etc/ossec.conf.backup*
+
+# API keys and tokens
+api_key.txt
+api_token
+bearer_token
+
+################################################################################
+# SENSITIVE LOGS - CONTAINS PERSONAL/SYSTEM DATA
+################################################################################
+
+# System and application logs
+*.log
+logs/
+/var/ossec/logs/
+/var/ossec/logs/alerts/
+/var/ossec/logs/archives/
+
+# Wazuh agent status files
+/var/ossec/var/run/
+/var/ossec/var/download/
+/var/ossec/var/incoming/
+
+# System configuration backups
+*.backup
+*.backup.*
+*.bak
+*.orig
+*~
+
+################################################################################
+# PERSONAL/SYSTEM INFORMATION
+################################################################################
+
+# SSH configuration (may contain personal keys if modified)
+/etc/ssh/sshd_config
+/home/*/.ssh/
+
+# System configuration
+/etc/passwd
+/etc/shadow
+/etc/group
+/etc/sudoers
+/etc/sudoers.d/
+
+# System state files
+.history
+.bash_history
+.zsh_history
+
+################################################################################
+# PYTHON ARTIFACTS
+################################################################################
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# PyCharm/IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+################################################################################
+# TEMPORARY FILES
+################################################################################
+
+# Temporary data files
+/tmp/
+/temp/
+*.tmp
+*.temp
+
+# Generated reports (backup only locally)
+anomaly_report.json
+processed_alerts.json
+baseline_alerts.json
+test_alerts.json
+
+# Downloaded packages
+wazuh-agent-*.tar.gz
+wazuh-agent-*.rpm
+wazuh-agent-*.pkg.tar.zst
+
+################################################################################
+# LOCAL CONFIGURATIONS
+################################################################################
+
+# Environment-specific files
+local.conf
+local_rules.conf
+custom_config.xml
+
+# Test data
+test_data/
+test_logs/
+
+# Docker/Container stuff (if used later)
+.dockerignore
+docker-compose.override.yml
+
+################################################################################
+# GIT-SPECIFIC
+################################################################################
+
+# Git merge conflicts
+*.orig
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+
+# Stashed changes
+stash/
+
+################################################################################
+# OS-SPECIFIC
+################################################################################
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+
+# Windows
+Thumbs.db
+thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+
+################################################################################
+# BUILD & DEPENDENCY FILES (if compiling from source)
+################################################################################
+
+# Compilation artifacts
+*.o
+*.a
+*.so
+*.dylib
+
+# Build directories
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Package managers
+Cargo.lock
+go.sum
